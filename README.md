@@ -1,9 +1,10 @@
 
 AI Website Generator
+
 An intelligent web application that generates fully functional websites from natural language prompts. Built with React.js frontend and Node.js backend, this tool leverages AI to transform user descriptions into ready-to-deploy websites.
 
 🚀 Features
-Prompt-to-Website Conversion: Generate complete websites by simply describing what you want
+# Prompt-to-Website Conversion: Generate complete websites by simply describing what you want
 
 Real-time Preview: See your website come to life as you type your prompt
 
