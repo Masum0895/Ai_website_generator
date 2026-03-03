@@ -6,7 +6,7 @@ import Projects from './pages/Projects'
 import MyProjects from './pages/MyProjects'
 import Preview from './pages/Preview'
 import Community from './pages/Community'
-import Views from './pages/Views'
+import View from './pages/View'
 import Navbar from './components/Navbar'
 
 const App = () => {
@@ -23,7 +23,7 @@ const App = () => {
         <Route path='/preview/:projectId' element={<Preview />}/>
         <Route path='/preview/:projectId/:versionId' element={<Preview />}/>
         <Route path='/community' element={<Community />}/>
-        <Route path='/view/:projectId' element={<Views />}/>
+        <Route path='/view/:projectId' element={<View />}/>
       </Routes>
     </div>
   )
