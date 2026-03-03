@@ -98,10 +98,10 @@ const Projects = () => {
         </div>
       </div>
       <div className='flex-1 flex overflow-auto'>
-        <div className='flex-1 p-2 pl-0'>
+        <div className='overflow-hidden border-r border-gray-800'>
             <Sidebar isMenuOpen={isMenuOpen} project={project} setProject={(p)=>setProject(p)} isGenerating={isGenerating} setIsGenerating={setIsGenerating}/>
         </div>
-        <div className='flex-1 p-2 pl-0'>
+        <div className='flex-1 overflow-hidden p-2 flex justify-center'>
             <ProjectPreview ref={previewRef} project={project} isGenerating={isGenerating} device={device}/>
         </div>
       </div>
