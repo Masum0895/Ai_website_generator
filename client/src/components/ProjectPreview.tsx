@@ -8,6 +8,7 @@ interface ProjectPreviewProps {
     isGenerating: boolean;
     device?: 'phone' | 'tablet' | 'desktop';
     showEditorPanel?: boolean;
+    fullScreen?: boolean; // Add this
 }
 
 export interface ProjectPreviewRef {

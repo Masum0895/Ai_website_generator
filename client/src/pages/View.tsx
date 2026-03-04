@@ -5,7 +5,7 @@ import { Loader2Icon } from 'lucide-react';
 import ProjectPreview from '../components/ProjectPreview';
 import type { Project } from '../types';
 
-const Views = () => {
+const View = () => {
   const {projectId} = useParams();
   const [code,setCode] = useState('')
   const [loading,setLoading] = useState(true)
@@ -31,10 +31,10 @@ const Views = () => {
     )
   }
   return (
-    <div>
+    <div className='h-screen w-full overflow-hidden'>
       {code && <ProjectPreview project={{current_code: code} as Project} isGenerating={false} showEditorPanel={false}/>}
     </div>
   )
 }
 
-export default Views
+export default View
