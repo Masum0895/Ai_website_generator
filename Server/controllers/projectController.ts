@@ -23,7 +23,7 @@ export const makeRevision = async (req:Request, res:Response)=>{
             return res.status(400).json({message:'Please enter a valid prompt'});
         }
         const currentProject = await prisma.websiteProject.findUnique({
-            where: {id: projectId,userId},
+            where: {id: String(projectId),userId},
             include: {versions:true}
             })
         if(!currentProject){
@@ -41,7 +41,7 @@ export const makeRevision = async (req:Request, res:Response)=>{
         })
         // Enhance user prompt
         const promptEnhanceResponse = await openai.chat.completions.create({
-            model: "z-ai/glm-4.5-air:free",
+            model: "stepfun/step-3.5-flash:free",
             messages: [
                 {
                     role: "system",
@@ -83,7 +83,7 @@ export const makeRevision = async (req:Request, res:Response)=>{
 
                 // Generate website code
                 const codeGenerationResponse = await openai.chat.completions.create({
-                    model: "z-ai/glm-4.5-air:free",
+                    model: "stepfun/step-3.5-flash:free",
                     messages: [{
                         role: 'system',
                         content: `You are an expert web developer. 
@@ -106,6 +106,25 @@ export const makeRevision = async (req:Request, res:Response)=>{
             })
             const code = codeGenerationResponse.choices[0].message.content || '';
 
+            if(!code){
+              await prisma.conversation.create({
+                data: {
+                    role: 'assistant',
+                    content: "Unable to generate the code, please try again",
+                    projectId
+                }
+            }) 
+            await prisma.user.update({
+                where:{id:userId},
+                data: {
+                    credits:{
+                        increment: 5
+                    }
+                }
+            }) 
+            return;
+            }
+
             const version = await prisma.version.create({
                 data: {
                     code: code.replace(/```[a-z]*\n?/gi,'').replace(/```$/g, '').trim(),
@@ -123,7 +142,7 @@ export const makeRevision = async (req:Request, res:Response)=>{
             })
             
             await prisma.websiteProject.update({
-                where:{id:projectId},
+                where:{id:String(projectId)},
                 data: {
                     current_code: code.replace(/```[a-z]*\n?/gi,'').replace(/```$/g, '').trim(),
                     current_version_index: version.id
@@ -216,14 +235,24 @@ export const getProjectPreview = async (req:Request, res:Response)=>{
             return res.status(401).json({message:'Unauthorized'})
         }
 
+        if (!projectId) {
+            return res.status(400).json({ message: 'Project ID is required' });
+        }
+
         const project = await prisma.websiteProject.findUnique({
             where: {id: String(projectId),userId},
-            include: {versions: true}
-        })
+            include: {
+                versions: {
+                orderBy: { timestamp: 'desc' }
+            },
+            conversation: {
+                orderBy: { timestamp: 'asc' }
+            }
+        }
+        });
 
-        await prisma.websiteProject.delete({
-            where: {id: String(projectId),userId},
-        })
+        // Debug log
+        //console.log('5. Query completed.Project found:', project ? 'Yes' : 'No');
 
         if(!project){
             return res.status(404).json({message:'Project not found'});
@@ -271,7 +300,7 @@ export const getProjectById = async (req:Request, res:Response)=>{
 export const saveProjectCode = async (req:Request, res:Response)=>{
     try {
         const userId = req.userId;
-        const projectId = req.params;
+        const {projectId} = req.params;
         const {code} = req.body;
 
         if(!userId){

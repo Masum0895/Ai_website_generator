@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from 'react'
 import type { Message, Project, Version } from '../types';
 import { BotIcon, EyeIcon, Loader2Icon, SendIcon, UserIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import api from '@/configs/axios';
+import { toast } from 'sonner';
 
 interface SidebarProps {
     isMenuOpen : boolean;
@@ -15,16 +17,53 @@ const Sidebar = ({isMenuOpen, project, setProject, isGenerating,setIsGenerating}
     const messageRef = useRef<HTMLDivElement>(null)
     const [input,setInput] = useState('')
 
-    const handleRollback = async (versionId : string) =>{
+    const fetchProject = async () => {
+        try {
+            const {data} = await api.get(`/api/user/project/${project.id}`)
+            setProject(data.project)
+        } catch (error:any) {
+            toast.error(error?.response?.data?.message || error.message);
+            console.log(error);
+        }
+    }
 
+    const handleRollback = async (versionId : string) =>{
+        try {
+            const confirm = window.confirm('Are you sure want to rollback to this version?')
+            if(!confirm) return;
+            setIsGenerating(true);
+            const {data} = await api.post(`/api/project/rollback/${project.id}/${versionId}`);
+            const {data: data2} = await api.get(`/api/user/project/${project.id}`);
+            toast.success(data.message)
+            setProject(data2.project)
+            setIsGenerating(false)
+        } catch (error:any) {
+            setIsGenerating(false)
+            toast.error(error?.response?.data?.message || error.message);
+            console.log(error);
+        }
     }
 
     const handleRevisions = async (e:React.FormEvent)=>{
         e.preventDefault()
-        setIsGenerating(true)
-        setTimeout(()=>{
-            setIsGenerating(false)
-        },3000)
+        let interval: number | undefined;
+        try {
+            setIsGenerating(true);
+            interval = setInterval(()=>{
+                fetchProject();
+            },10000)
+            const {data} = await api.post(`/api/project/revision/${project.id}`,{message:input})
+            await fetchProject();
+            toast.success(data.message)
+            setInput('')
+            clearInterval(interval)
+            setIsGenerating(false);
+        } catch (error:any) {
+            toast.error(error?.response?.data?.message || error.message);
+            console.log(error);
+            clearInterval(interval)
+        }
+        
     }
 
     useEffect(()=>{
@@ -100,7 +139,7 @@ const Sidebar = ({isMenuOpen, project, setProject, isGenerating,setIsGenerating}
             <div ref={messageRef}/>
             </div>
             {/* Input Area */}
-            <form onSubmit={handleRevisions} className="mt-3 relative">
+            <form onSubmit={handleRevisions} className="m-3 relative">
                 <div className='flex items-center gap-2'>
                     <textarea onChange={(e)=>setInput(e.target.value)} value={input} rows={4} placeholder="Describe your website or request changes..." className='flex-1 p-3 rounded-xl resize-none text-sm outline-none ring ring-gray-700 focus:ring-indigo-500 bg-gray-800 text-gray-100 placeholder-gray-400 transition-all' disabled={isGenerating || !input.trim()}/>
                     <button disabled={isGenerating} className="absolute bottom-2.5 right-2.5 bg-linear-to-r from-indigo-500 to-indigo-600 hover:from-indigo-600 hover:to-indigo-700 text-white transition-colors disabled:opacity-60">
