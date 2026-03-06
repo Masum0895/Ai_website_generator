@@ -1,142 +1,268 @@
-
-AI Website Generator
+AI Website Generator 
 
 An intelligent web application that generates fully functional websites from natural language prompts. Built with React.js frontend and Node.js backend, this tool leverages AI to transform user descriptions into ready-to-deploy websites.
 
-🚀 Features
-# Prompt-to-Website Conversion: Generate complete websites by simply describing what you want
+https://via.placeholder.com/1200x400/1a1a2e/ffffff?text=AI+Website+Generator
+✨ Features
+Prompt-to-Website Conversion: Generate complete websites by simply describing what you want
 
 Real-time Preview: See your website come to life as you type your prompt
 
-Responsive Designs: Automatically generated websites that work beautifully on all devices
-
-Customizable Output: Fine-tune generated websites with additional prompts
-
-Export Functionality: Download generated websites as HTML/CSS/JS packages
+AI-Powered Revisions: Make changes through natural conversation
 
 Version Control: Track and revert to previous versions of your generated sites
 
-Templates Library: Save and reuse successful generations as templates
+Responsive Designs: Preview your website on different devices (mobile, tablet, desktop)
+
+Code Export: Download generated websites as HTML files
+
+Community Gallery: Browse and get inspired by published projects
+
+User Authentication: Secure login with email/password
+
+Credit System: Manage usage with credits (5 credits per generation)
 
 🛠️ Tech Stack
 Frontend
-React.js with Hooks and Context API
+React.js with TypeScript
 
 Tailwind CSS for styling
 
+Lucide React for icons
+
+React Router DOM for navigation
+
 Axios for API calls
 
-React Router for navigation
+Sonner for toast notifications
 
-VsCode for code editing
+Better Auth for authentication
 
 Backend
 Node.js with Express
 
-OpenAI/GPT API integration
+TypeScript for type safety
 
-PostGres for user data and generation history
+Prisma ORM with PostgreSQL (NeonDB)
 
-JWT authentication
+OpenRouter API for AI model access (Stepfun 3.5 Flash)
 
+Better Auth for authentication
 
+Serverless-http for Netlify deployment
 
-📋 How It Works
-User enters a descriptive prompt (e.g., "Create a modern portfolio website for a photographer with a dark theme and a gallery section")
+📋 Prerequisites
+Node.js (v18.14.0 or later)
 
-AI processes the prompt and generates appropriate website structure and content
+PostgreSQL database (NeonDB recommended)
 
-Backend generates HTML, CSS, and JavaScript code based on the AI interpretation
+OpenRouter API key
 
-Frontend displays a live preview of the generated website
+GitHub account (for deployment)
 
-User can refine the result with additional prompts or manual edits
-
-Final website can be exported or deployed directly
-
-🎯 Use Cases
-Rapid prototyping for developers
-
-Landing page creation for businesses
-
-Personal portfolio generation
-
-Educational tool for learning web development
-
-Quick MVP creation for startups
-
-🚦 Getting Started
-Prerequisites
-Node.js (v14 or higher)
-
-npm or yarn
-
-PostGres
-
-OpenAI API key
-
-Installation
-Clone the repository
+🚀 Getting Started
+1. Clone the Repository git clone https://github.com/yourusername/ai-website-generator.git
+cd ai-website-generator
+2. 2. Install Dependencies
+Backend:
 
 bash
-git clone https://github.com/Masum0895/Ai-website-generator.git
-Install frontend dependencies
-
-bash
-cd client
+cd server
 npm install
-Install backend dependencies
+Frontend:
 
 bash
-cd ../server
+cd ../client
 npm install
-Set up environment variables
+3. Set Up Environment Variables
+Backend (.env in server folder):
+
+env
+# Database
+DATABASE_URL="postgresql://username:password@ep-your-project.us-east-2.aws.neon.tech/database?sslmode=require"
+
+# Better Auth
+BETTER_AUTH_SECRET="your-super-secret-key-at-least-32-chars"
+BETTER_AUTH_URL="http://localhost:3001"
+
+# CORS
+TRUSTED_ORIGINS="http://localhost:5173"
+
+# AI API (OpenRouter)
+AI_API_KEY="your-openrouter-api-key"
+
+# Node Environment
+NODE_ENV="development"
+Frontend (.env in client folder):
+
+env
+VITE_API_URL="http://localhost:3001"
+4. Set Up Database
+bash
+cd server
+npx prisma generate
+npx prisma db push
+5. Run Locally
+Start Backend:
 
 bash
-cp .env.example .env
-# Add your API keys and configuration
-Run the development servers
-
-bash
-# Backend
+cd server
 npm run dev
+Start Frontend (new terminal):
 
-# Frontend (in another terminal)
+bash
 cd client
-npm start
-🗺️ Roadmap
-Initial prototype with basic prompt-to-HTML conversion
+npm run dev
+Visit http://localhost:5173 to see the application.
+📁 Project Structure
+text
+ai-website-generator/
+├── client/                    # Frontend React app
+│   ├── src/
+│   │   ├── components/        # Reusable components
+│   │   │   ├── ProjectPreview.tsx
+│   │   │   ├── Sidebar.tsx
+│   │   │   ├── EditorPanel.tsx
+│   │   │   └── LoaderSteps.tsx
+│   │   ├── pages/            # Page components
+│   │   │   ├── Home.tsx
+│   │   │   ├── Projects.tsx
+│   │   │   ├── Preview.tsx
+│   │   │   ├── View.tsx
+│   │   │   ├── Community.tsx
+│   │   │   └── Pricing.tsx
+│   │   ├── lib/              # Utilities
+│   │   │   ├── auth-client.ts
+│   │   │   └── axios.ts
+│   │   └── types/            # TypeScript types
+│   │       └── index.ts
+│   └── package.json
+│
+├── server/                    # Backend Express app
+│   ├── controllers/           # Route controllers
+│   │   ├── projectController.ts
+│   │   └── userController.ts
+│   ├── routes/                # API routes
+│   │   └── projectRoutes.ts
+│   ├── middlewares/           # Custom middleware
+│   │   └── auth.ts
+│   ├── lib/                   # Utilities
+│   │   ├── auth.ts           # Better Auth config
+│   │   └── prisma.ts         # Prisma client
+│   ├── configs/               # Configurations
+│   │   └── openai.ts         # OpenRouter config
+│   ├── prisma/                # Prisma schema
+│   │   └── schema.prisma
+│   ├── netlify/               # Netlify functions
+│   │   └── functions/
+│   │       └── api.js
+│   ├── app.js                 # Express app (exported)
+│   ├── server-local.js        # Local development server
+│   └── package.json
+│
+├── netlify.toml               # Netlify configuration
+└── README.md                  # This file
+🎯 Core Features Explained
+1. AI Website Generation
+Users describe their desired website in natural language
 
-Enhanced AI model training for better code generation
+AI enhances the prompt and generates complete HTML/CSS/JS code
 
-User authentication and project saving
+All styling uses Tailwind CSS for consistency
 
-Custom domain support
+2. Real-time Preview
+Live preview of generated website
 
-One-click deployment to Vercel/Netlify
+Device emulation (mobile, tablet, desktop)
 
-Team collaboration features
+Element selection and inline editing
 
-Plugin system for extending functionality
+3. Version Control
+Every revision creates a new version
 
-Mobile app version
+Browse version history
 
+Rollback to any previous version
+
+4. Community Gallery
+Browse published projects from other users
+
+View source code and get inspiration
+
+Share your own creations
+
+🌐 Deployment
+Deploy to Netlify (Recommended)
+Push your code to GitHub
+
+Connect to Netlify
+
+Log in to app.netlify.com
+
+Click "Add new site" → "Import an existing project"
+
+Connect to GitHub and select your repository
+
+Configure build settings
+
+Base directory: server
+
+Build command: npm install && npx prisma generate
+
+Publish directory: Leave empty
+
+Add environment variables in Netlify dashboard
+
+Deploy! Netlify will automatically deploy your serverless functions
+
+Deploy Frontend Separately (Optional)
+You can also deploy the frontend to Vercel or Netlify:
+
+bash
+cd client
+npm run build
+Then upload the dist folder to your hosting provider.
+
+🔌 API Endpoints
+Method	Endpoint	Description	Auth
+GET	/api/health	Health check	No
+GET	/api/project/published	Get published projects	No
+GET	/api/project/preview/:projectId	Get project preview	No
+POST	/api/project/revision/:projectId	Create new revision	Yes
+PUT	/api/project/save/:projectId	Save project code	Yes
+GET	/api/project/rollback/:projectId/:versionId	Rollback to version	Yes
+DELETE	/api/project/:projectId	Delete project	Yes
+GET	/api/user/publish-toggle/:projectId	Toggle publish status	Yes
 🤝 Contributing
-Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+Fork the repository
+
+Create your feature branch (git checkout -b feature/AmazingFeature)
+
+Commit your changes (git commit -m 'Add some AmazingFeature')
+
+Push to the branch (git push origin feature/AmazingFeature)
+
+Open a Pull Request
 
 📝 License
 This project is licensed under the MIT License - see the LICENSE file for details.
 
 🙏 Acknowledgments
-OpenAI for providing the AI capabilities
+OpenRouter for providing AI model access
 
-React and Node.js communities
+NeonDB for serverless PostgreSQL
+
+Better Auth for authentication
+
+Tailwind CSS for styling
 
 All contributors and users
 
 📧 Contact
-masumbilla0895@gmail.com
+Masum - masumbilla0895@gmail.com
 
-Project Link: coming soon
+Project Link: https://github.com/yourusername/ai-website-generator
 
 ⭐ Star this repository if you find it useful!
