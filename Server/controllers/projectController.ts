@@ -1,6 +1,7 @@
 import {Request, Response} from 'express'
 import prisma from '../lib/prisma.js';
 import openai from '../configs/openai.js';
+
 // Controller function to make revision
 export const makeRevision = async (req:Request, res:Response)=>{
     const userId = req.userId;
@@ -159,6 +160,7 @@ export const makeRevision = async (req:Request, res:Response)=>{
     }
 }
 
+
 // Controller function to rollback to a specific version
 export const rollbackToVersion = async (req:Request, res:Response)=>{
     try {
@@ -206,7 +208,7 @@ export const rollbackToVersion = async (req:Request, res:Response)=>{
         console.log(error.code || error.message);
         res.status(500).json({ message: error.message });
     }
-}
+} 
 
 // Controller function to delete a project
 
@@ -240,7 +242,7 @@ export const getProjectPreview = async (req:Request, res:Response)=>{
         }
 
         const project = await prisma.websiteProject.findUnique({
-            where: {id: String(projectId),userId},
+            where: {id: String(projectId)},
             include: {
                 versions: {
                 orderBy: { timestamp: 'desc' }

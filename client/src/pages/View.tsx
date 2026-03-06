@@ -8,8 +8,7 @@ import type { Project } from '../types';
 const View = () => {
   const {projectId} = useParams();
   const [code,setCode] = useState('')
-  const [loading,setLoading] = useState(true)
-
+  const [loading,setLoading] = useState(true)  
   const fetchCode = async ()=>{
     const code = dummyProjects.find(project=> project.id === projectId)?.current_code;
     setTimeout(()=>{
@@ -23,6 +22,7 @@ const View = () => {
   useEffect(()=>{
     fetchCode()
   },[])
+
   if (loading){
     return (
       <div className='flex items-center justify-center h-screen'>
