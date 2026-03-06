@@ -2,27 +2,37 @@ AI Website Generator
 
 An intelligent web application that generates fully functional websites from natural language prompts. Built with React.js frontend and Node.js backend, this tool leverages AI to transform user descriptions into ready-to-deploy websites.
 
-https://via.placeholder.com/1200x400/1a1a2e/ffffff?text=AI+Website+Generator
 ✨ Features
-Prompt-to-Website Conversion: Generate complete websites by simply describing what you want
 
-Real-time Preview: See your website come to life as you type your prompt
+Prompt-to-Website Conversion: 
+Generate complete websites by simply describing what you want
 
-AI-Powered Revisions: Make changes through natural conversation
+Real-time Preview: 
+See your website come to life as you type your prompt
 
-Version Control: Track and revert to previous versions of your generated sites
+AI-Powered Revisions: 
+Make changes through natural conversation
 
-Responsive Designs: Preview your website on different devices (mobile, tablet, desktop)
+Version Control: 
+Track and revert to previous versions of your generated sites
 
-Code Export: Download generated websites as HTML files
+Responsive Designs: 
+Preview your website on different devices (mobile, tablet, desktop)
 
-Community Gallery: Browse and get inspired by published projects
+Code Export: 
+Download generated websites as HTML files
 
-User Authentication: Secure login with email/password
+Community Gallery: 
+Browse and get inspired by published projects
 
-Credit System: Manage usage with credits (5 credits per generation)
+User Authentication: 
+Secure login with email/password
+
+Credit System: 
+Manage usage with credits (5 credits per generation)
 
 🛠️ Tech Stack
+
 Frontend
 React.js with TypeScript
 
@@ -63,7 +73,7 @@ GitHub account (for deployment)
 🚀 Getting Started
 1. Clone the Repository git clone https://github.com/yourusername/ai-website-generator.git
 cd ai-website-generator
-2. 2. Install Dependencies
+2. Install Dependencies
 Backend:
 
 bash
@@ -114,6 +124,7 @@ bash
 cd client
 npm run dev
 Visit http://localhost:5173 to see the application.
+
 📁 Project Structure
 text
 ai-website-generator/
@@ -160,9 +171,12 @@ ai-website-generator/
 │   ├── server-local.js        # Local development server
 │   └── package.json
 │
-├── netlify.toml               # Netlify configuration
+├
 └── README.md                  # This file
+
+
 🎯 Core Features Explained
+
 1. AI Website Generation
 Users describe their desired website in natural language
 
@@ -223,17 +237,9 @@ cd client
 npm run build
 Then upload the dist folder to your hosting provider.
 
-🔌 API Endpoints
-Method	Endpoint	Description	Auth
-GET	/api/health	Health check	No
-GET	/api/project/published	Get published projects	No
-GET	/api/project/preview/:projectId	Get project preview	No
-POST	/api/project/revision/:projectId	Create new revision	Yes
-PUT	/api/project/save/:projectId	Save project code	Yes
-GET	/api/project/rollback/:projectId/:versionId	Rollback to version	Yes
-DELETE	/api/project/:projectId	Delete project	Yes
-GET	/api/user/publish-toggle/:projectId	Toggle publish status	Yes
+
 🤝 Contributing
+
 Contributions are welcome! Please feel free to submit a Pull Request.
 
 Fork the repository
@@ -249,7 +255,8 @@ Open a Pull Request
 📝 License
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-🙏 Acknowledgments
+Acknowledgments
+
 OpenRouter for providing AI model access
 
 NeonDB for serverless PostgreSQL
